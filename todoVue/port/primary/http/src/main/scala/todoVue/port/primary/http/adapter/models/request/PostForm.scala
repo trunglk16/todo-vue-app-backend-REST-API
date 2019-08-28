@@ -23,7 +23,7 @@ case class PostForm(
 object PostForm {
   val postForm = Form(
     mapping(
-      "title" -> nonEmptyText,
+      "title" -> text,
       "completed" -> boolean,
       "editing" -> boolean
       )(PostForm.apply)(PostForm.unapply))

@@ -1,2 +1,3 @@
 GET         /test                       todoVue.port.primary.http.adapter.controllers.HomeController.index()
 GET         /post                       todoVue.port.primary.http.adapter.controllers.Post.PostController.list()
+POST        /post                       todoVue.port.primary.http.adapter.controllers.Post.PostController.insert()

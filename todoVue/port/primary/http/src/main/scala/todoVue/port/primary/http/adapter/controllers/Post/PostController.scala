@@ -7,6 +7,7 @@ import play.api.i18n.Langs
 import play.api.mvc.{ ControllerComponents, _ }
 import todoVue.domain.models.post.PostRepository
 import todoVue.port.primary.http.adapter.controllers.common.APIController
+import todoVue.port.primary.http.adapter.models.request.PostForm
 import todoVue.port.primary.http.adapter.models.response.Link.PostJson
 import utility.todoVue.repository.IOContextManager
 
@@ -24,18 +25,18 @@ class PostController @Inject() (
     success(PostJson(result))
   }
 
-  //  def insert(): EssentialAction = Action { implicit request =>
-  //    PostsForm.linkForm.bind(request.body.asJson.get).fold(
-  //      formWithError => {
-  //        BadRequest("Bad request" + formWithError)
-  //      },
-  //      linkData => {
-  //        IOContextManager.transactionalContext { implicit ctx =>
-  //          val results = postRepository.bulkCreateOrUpdate(Seq(linkData.convertToLink.get))
-  //          success(results.get.toString)
-  //        }
-  //      })
-  //  }
+  def insert(): EssentialAction = Action { implicit request =>
+    PostForm.postForm.bind(request.body.asJson.get).fold(
+      formWithError => {
+        BadRequest("Bad request" + formWithError)
+      },
+      postData => {
+        IOContextManager.transactionalContext { implicit ctx =>
+          val results = postRepository.bulkCreateOrUpdate(Seq(postData.convertToPost.get))
+          success(results.get.toString)
+        }
+      })
+  }
   //
   //  def listFromCatId(id: Int): EssentialAction = Action {
   //    IOContextManager.transactionalContext { implicit ctx =>
